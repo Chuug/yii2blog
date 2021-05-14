@@ -3,11 +3,12 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\User;
 use yii\helpers\Url;
 use yii\web\Controller;
 use app\models\user\LoginForm;
-use app\models\user\SignupForm;
 use yii\filters\AccessControl;
+use app\models\user\SignupForm;
 
 class UserController extends Controller
 {
@@ -79,6 +80,10 @@ class UserController extends Controller
    public function actionAdmin()
    {
       $this->layout = 'membre';
-      return $this->render('admin');
+
+      $users = User::find()->all();
+      return $this->render('admin', [
+         'users' => $users
+      ]);
    }
 }

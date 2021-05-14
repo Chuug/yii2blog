@@ -114,3 +114,10 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.page-title {
+   color: #343a40;
+   font-weight: 300;
+   margin-bottom: 1rem;
+   font-size: 2rem;
+}

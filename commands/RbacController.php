@@ -6,6 +6,7 @@ use yii\console\Controller;
 
 class RbacController extends Controller
 {
+   // php yii rbac/init
    public function actionInit()
    {
       $auth = Yii::$app->authManager;
@@ -25,17 +26,47 @@ class RbacController extends Controller
       $admin = $auth->createRole('admin');
       $auth->add($admin);
       $auth->addChild($admin, $updateArticle);
+
       $auth->addChild($admin, $author);
 
-      $rule = new \app\rbac\AuthorRule;
-      $auth->add($rule);
+      $ruleBlog = new \app\rbac\AuthorRule('articleAuthor');
+      $auth->add($ruleBlog);
 
       $ownArticle = $auth->createPermission('ownArticle');
       $ownArticle->description = "Mettre à jour ses propres articles";
-      $ownArticle->ruleName = $rule->name;
+      $ownArticle->ruleName = $ruleBlog->name;
       $auth->add($ownArticle);
 
       $auth->addChild($ownArticle, $updateArticle);
       $auth->addChild($author, $ownArticle);
+
+      $createComment = $auth->createPermission('createComment');
+      $createComment->description = "Ecrire un commentaire";
+      $auth->add($createComment);
+      
+      $auth->addChild($author, $createComment);
+
+      $updateComment = $auth->createPermission('updateComment');
+      $updateComment->description = "Editer un commentaire";
+      $auth->add($updateComment);
+
+      $auth->addChild($author, $updateComment);
+
+      $ruleComment = new \app\rbac\AuthorRule('commentAuthor');
+      $auth->add($ruleComment);
+
+      $ownComment = $auth->createPermission('ownComment');
+      $ownComment->description = "Mettre à jour ses propres commentaires";
+      $ownComment->ruleName = $ruleComment->name;
+      $auth->add($ownComment);
+
+      $auth->addChild($ownComment, $updateComment);
+      $auth->addChild($author, $ownComment);
+   }
+
+   // php yii rbac/update
+   public function actionUpdate()
+   {
+
    }
 }

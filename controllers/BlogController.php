@@ -54,7 +54,7 @@ class BlogController extends Controller
    public function actionUpdate($id, $adm = false)
    {
       $article = Blog::get($id);
-      if (Yii::$app->user->can('ownArticle', ['article' => $article])) {     
+      if (Yii::$app->user->can('ownArticle', ['target' => $article])) {     
          $updateForm = new BlogForm($article);
    
          if ($updateForm->load(Yii::$app->request->post()) && $updateForm->validate()) {
@@ -71,7 +71,7 @@ class BlogController extends Controller
 
    public function actionPublish($id, $adm = false)
    {
-      if (Yii::$app->user->can('ownArticle', ['article' => Blog::get($id)]) && Blog::publish($id))
+      if (Yii::$app->user->can('ownArticle', ['target' => Blog::get($id)]) && Blog::publish($id))
          return $this->redirect(Url::toRoute('blog/'.(($adm) ? 'admin' : 'index')));
       else
          throw new ForbiddenHttpException("Accès refusé",403);
@@ -79,7 +79,7 @@ class BlogController extends Controller
 
    public function actionDelete($id, $adm = false)
    {
-      if (Yii::$app->user->can('ownArticle', ['article' => Blog::get($id)]) && Blog::destroy($id))
+      if (Yii::$app->user->can('ownArticle', ['target' => Blog::get($id)]) && Blog::destroy($id))
          return $this->redirect(Url::toRoute('blog/'.(($adm) ? 'admin' : 'index')));
       else
          throw new ForbiddenHttpException("Accès refusé",403);

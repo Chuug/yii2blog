@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Blog;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -57,6 +58,9 @@ class SiteController extends Controller
     */
    public function actionIndex()
    {
-      return $this->render('index');
+      $articles = Blog::find()->all();
+      return $this->render('index', [
+         'articles' => $articles
+      ]);
    }
 }

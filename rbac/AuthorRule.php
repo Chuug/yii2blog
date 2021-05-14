@@ -6,10 +6,15 @@ use yii\rbac\Rule;
 
 class AuthorRule extends Rule
 {
-   public $name = 'isAuthor';
+   public $name;
+
+   public function __construct($name)
+   {
+      $this->name = $name;
+   }
 
    public function execute($user, $item, $params)
    {
-      return ($params['article']) ? $params['article']->user_id == $user || Yii::$app->authManager->checkAccess(Yii::$app->user->id, 'admin') : false;
+      return ($params['target']) ? $params['target']->user_id == $user || Yii::$app->authManager->checkAccess(Yii::$app->user->id, 'admin') : false;
    }
 }
