@@ -42,7 +42,7 @@ INSTALLATION
 
 ### Commands
 
-Clone
+#1 Clone
 
 ~~~
 git clone https://github.com/Chuug/yii2blog.git
@@ -52,22 +52,24 @@ git clone https://github.com/Chuug/yii2blog.git
 composer install
 ~~~
 
-Migrate rbac
+#2 Set config/db.php
+
+#3 Migrate rbac
 
 ~~~
 php yii migrate --migrationPath=@yii/rbac/migrations
 ~~~
 
-Setup rbac
+#4 Setup rbac
 
 ~~~
 php yii rbac/init
 ~~~
 
-Setup db
+#5 Setup db
 
 ~~~
 php yii migrate/up
 ~~~
 
-admin account: admin/admin
+#6 admin account: admin/admin
