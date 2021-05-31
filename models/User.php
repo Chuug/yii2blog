@@ -21,6 +21,11 @@ class User extends ActiveRecord implements IdentityInterface
       return $this->hasMany(Blog::class, ['user_id' => 'id']);
    }
 
+   public function getComments()
+   {
+      return $this->hasMany(Comment::class, ['user_id' => 'id']);
+   }
+
    public function hashPassword($password)
    {
       $this->password_hash = Yii::$app->security->generatePasswordHash($password);

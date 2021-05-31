@@ -121,3 +121,42 @@ a.desc:after {
    margin-bottom: 1rem;
    font-size: 2rem;
 }
+
+/* ------------------------------ Dropdown menu ----------------------------- */
+
+.drop-me {
+   position: relative;
+   display: none;
+}
+
+.drop {
+   z-index: 2;
+   position: absolute;
+   top:3px;
+   right:0px;
+   list-style-type: none;
+   background-color: white;
+   padding-left: 0px;
+   border: 1px solid #6c757d;
+   border-radius: .2rem;
+}
+
+.drop li a:hover,
+.drop li button:hover {
+   background-color:#e0e0e0;
+}
+
+.drop li a,
+.drop li button{
+   padding: 5px 10px;
+   display: block;
+   width: auto;
+   text-decoration: none;
+   color:#212529;
+   border: none;
+   background-color: white;
+}
+
+.show {
+   display: block;
+}

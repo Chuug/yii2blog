@@ -3,18 +3,18 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Blog;
-use app\models\User;
 use yii\helpers\Url;
+use app\models\Comment;
 use yii\web\Controller;
-use yii\helpers\VarDumper;
 use app\models\blog\BlogForm;
+use app\models\comment\CommentForm;
 use yii\web\ForbiddenHttpException;
 
 class BlogController extends Controller
 {
    public function beforeAction($action)
    {
-      if($action->id != 'view' || $action->id != ['admin'])
+      if($action->id != 'admin')
          $this->layout = 'membre';
       return parent::beforeAction($action);
    }
@@ -28,9 +28,22 @@ class BlogController extends Controller
       ]);
    }
 
-   public function actionView()
+   public function actionView($id)
    {
-      return $this->render('view');
+      $this->layout = "main";
+      $article = Blog::get($id);
+      $commentForm = null;
+      if(\Yii::$app->user->can('createComment')) {
+         $commentForm = new CommentForm();
+         if($commentForm->load(Yii::$app->request->post()) && $commentForm->validate()) {
+            if($commentForm->create($id))
+               return $this->refresh();
+         }
+      }
+      return $this->render('view', [
+         'article' => $article,
+         'commentForm' => $commentForm
+      ]);
    }
 
    public function actionCreate()
@@ -40,7 +53,7 @@ class BlogController extends Controller
 
          if ($createForm->load(Yii::$app->request->post()) && $createForm->validate()) {
             if($createForm->create())
-               return $this->redirect(Url::toRoute('blog/view'));
+               return $this->redirect(Url::toRoute(['blog/index']));     
          }
    
          return $this->render('create', [
@@ -96,5 +109,14 @@ class BlogController extends Controller
       } else {
          throw new ForbiddenHttpException("Accès refusé",403);
       }
+   }
+
+   public function actionDeleteComment($id)
+   {
+      $comment = Comment::get($id);
+      if(Yii::$app->user->can('ownArticle', ['target' => $comment]) && Comment::destroy($id))
+         return $this->redirect(Url::toRoute(['blog/view', 'id' => $comment->article->id]));        
+      else
+         throw new ForbiddenHttpException("Accès refusé", 403);
    }
 }

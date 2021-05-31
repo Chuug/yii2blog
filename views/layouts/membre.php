@@ -85,6 +85,7 @@ AppAsset::register($this);
 </footer>
 
 <?php $this->endBody() ?>
+<script src="<?= Url::to('@web/js/base.js') ?>"></script>
 </body>
 </html>
 <?php $this->endPage() ?>

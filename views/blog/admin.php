@@ -19,7 +19,7 @@ $this->title = "Admin Article";
    <tbody>
    <?php foreach($articles as $article): ?>
    <tr>
-      <td><?= $article->title ?></td>
+      <td><a href="<?= Url::toRoute(['blog/view', 'id' => $article->id]) ?>" class="text-dark"><?= $article->title ?></a></td>
       <td><?= $article->user->username ?></td>
       <td><?= $article->created_at ?></td>
       <td><?= ($article->published) ? 'Oui' : 'Non' ?></td>

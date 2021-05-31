@@ -15,6 +15,11 @@ class Blog extends ActiveRecord
       return $this->hasOne(User::class, ['id' => 'user_id']);
    }
 
+   public function getComments()
+   {
+      return $this->hasMany(Comment::class, ['blog_id' => 'id']);
+   }
+
    public static function listAll($userId = null, $order = "DESC")
    {
       return Blog::find()->filterWhere(['user_id' => $userId])->orderBy(['created_at' => ($order == 'DESC') ? SORT_DESC : SORT_ASC])->all();

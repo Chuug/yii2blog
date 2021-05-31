@@ -41,8 +41,9 @@ class m210514_120959_database extends Migration
 
       $this->createTable('comment', [
          'id' => $this->primaryKey(),
-         'user_id' => $this->integer(),
-         'body' => $this->text(),
+         'user_id' => $this->integer()->notNull(),
+         'blog_id' => $this->integer()->notNull(),
+         'body' => $this->text()->notNull(),
          'created_at' => $this->timestamp()
       ]);
    }

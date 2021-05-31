@@ -17,18 +17,24 @@ $this->title = "Mes articles";
       <th width="20%"></th>
    </thead>
    <tbody>
-   <?php foreach($articles as $article): ?>
-   <tr>
-      <td><?= $article->title ?></td>
-      <td><?= $article->created_at ?></td>
-      <td><?= ($article->published) ? 'Oui' : 'Non' ?></td>
-      <td class="text-right">
-         <a href="<?= Url::toRoute(['blog/publish', 'id' => $article->id]) ?>" class="text-dark mx-1"><i class="fas fa-eye<?= (!$article->published)? '-slash' : '' ?>"></i></a>
-         <a href="<?= Url::toRoute(['blog/update', 'id' => $article->id]) ?>" class="text-dark mx-1"><i class="fas fa-edit"></i></a>
-         <a href="<?= Url::toRoute(['blog/delete', 'id' => $article->id]) ?>" class="text-dark mx-1"><i class="fas fa-trash-alt"></i></a>
-      </td>
-   </tr>
-   <?php endforeach; ?>
+   <?php if(count($articles) == 0): ?>
+      <tr>
+         <td colspan="4"><p class="font-italic">Vous n'avez pas d'articles</p></td>
+      </tr>  
+   <?php else: ?>
+      <?php foreach($articles as $article): ?>
+      <tr>
+         <td><a href="<?= Url::toRoute(['blog/view', 'id' => $article->id]) ?>" class="text-dark"><?= $article->title ?></a></td>
+         <td><?= $article->created_at ?></td>
+         <td><?= ($article->published) ? 'Oui' : 'Non' ?></td>
+         <td class="text-right">
+            <a href="<?= Url::toRoute(['blog/publish', 'id' => $article->id]) ?>" class="text-dark mx-1"><i class="fas fa-eye<?= (!$article->published)? '-slash' : '' ?>"></i></a>
+            <a href="<?= Url::toRoute(['blog/update', 'id' => $article->id]) ?>" class="text-dark mx-1"><i class="fas fa-edit"></i></a>
+            <a href="<?= Url::toRoute(['blog/delete', 'id' => $article->id]) ?>" class="text-dark mx-1"><i class="fas fa-trash-alt"></i></a>
+         </td>
+      </tr>
+      <?php endforeach; ?>
+   <?php endif; ?>
    </tbody>
 </table>
 

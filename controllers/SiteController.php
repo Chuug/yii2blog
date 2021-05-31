@@ -58,7 +58,7 @@ class SiteController extends Controller
     */
    public function actionIndex()
    {
-      $articles = Blog::find()->all();
+      $articles = Blog::find()->where(['published' => true])->all();
       return $this->render('index', [
          'articles' => $articles
       ]);
